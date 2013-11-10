@@ -9,7 +9,7 @@ too.
 The cell contents and the contents of the headers are defined with their own directives so that they can be as complex
 and flexible as angularJS allows. You can use every angularJS feature in them as you like.
 
-[http://marcorinck.github.io/ngDynamicColumns/](See it in action on the Demo site)
+[See it in action on the Demo site](http://marcorinck.github.io/ngDynamicColumns/)
 
 ##Installation
 
