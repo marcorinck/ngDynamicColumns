@@ -8,10 +8,10 @@ as you like. You can use every angularJS feature in them as you like.
 
 ##Installation
 
-* with bower: ´bower install ngDynamicColumns´
-* manual: download ´ngDynamicColumns.js´
+* with bower: `bower install ngDynamicColumns`
+* manual: download `ngDynamicColumns.js`
 
-Inside your angularJS app define a dependency to 'ngDynamicColumns' like this: ´angular.module("app", ["ngDynamicColumns"])´
+Inside your angularJS app define a dependency to 'ngDynamicColumns' like this: `angular.module("app", ["ngDynamicColumns"])`
 
 ##Usage
 
