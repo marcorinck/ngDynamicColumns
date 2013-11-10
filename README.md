@@ -1,5 +1,7 @@
 #ngDynamicColumns
 
+License: The MIT License.
+
 ngDynamicColumns is providing two angularJS directives to render a datatable with full dynamic columns. That means, that
 the order of the columns in a datatable is not hard-coded but can be freely changed. A column can be toggled on and off
 too.
