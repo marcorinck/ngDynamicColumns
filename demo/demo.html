@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>ngDynamicColumns Demo</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.0/angular.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.0/angular-animate.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.0/angular-mocks.js"></script>
+    <link href="http://netdna.bootstrapcdn.com//twitter-bootstrap/2.3.2/css/bootstrap-combined.min.css" rel="stylesheet">
+
+    <script src="../src/ngDynamicColumns.js"></script>
+    <script src="../src/ColumnHeaderDirective.js"></script>
+    <script src="../src/DynamicColumnService.js"></script>
+    <script src="../src/DynamicRowDirective.js"></script>
+
+    <script src="demo.js"></script>
+</head>
+<body ng-app="demo">
+
+<style>
+    .manufacturerClass {
+        width: 12%;
+    }
+
+    .modelClass {
+        width: 12%;
+    }
+
+    .descClass {
+        width: 12%;
+    }
+
+    .ramClass {
+        width: 12%;
+    }
+
+    .cpuClass {
+        width: 12%;
+    }
+
+    .yearClass {
+        width: 12%;
+    }
+
+    .lteClass {
+        width: 12%;
+    }
+
+    .resolutionClass {
+        width: 12%;
+    }
+
+</style>
+
+<div ng-controller="demoCtrl">
+    <div class="text-center container"><h1>ngDynamicColumns Demo site</h1></div>
+
+    <div class="container">
+        <div class="well row">
+            <table border="1">
+                <thead>
+                    <tr column-header="columns"></tr>
+                </thead>
+                <tbody class="ui-datatable-data ui-widget-content">
+                    <tr ng-repeat="phone in phones track by phone.id" dynamic-row="columns"></tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="well row">
+            <div ng-repeat="column in columns" >
+                ID: <span ng-bind="column.id"></span> visible: <input type="checkbox" ng-model="column.visible" ng-change="columnChanged(column)" >
+            </div>
+        </div>
+        <div class="well row">
+            <input ng-click="shuffleColumns()" type="button" value="Shuffle column order"/><br />
+            <p>Warning! This rerenders complete table with all elements, which can take a long time when the table has many DOM elements.</p>
+
+            <p>In a real world application you should emit the 'columnOrderChanged' event to <strong>move</strong> a column to another column, for example after a drag and drop action by the user.
+               This is not implemented in this demo. </p>
+        </div>
+
+    </div>
+
+</div>
+
+</body>
+</html>
