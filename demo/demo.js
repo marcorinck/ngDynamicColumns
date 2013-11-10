@@ -26,7 +26,15 @@ app.controller("demoCtrl", function demoCtrl($scope, $rootScope) {
 
     $scope.columnChanged = function(column) {
         $rootScope.$emit("columnToggled", column.id);
-    }
+    };
+
+    $scope.shuffleColumns = function() {
+        $scope.columns.sort(function() {
+            return .5 - Math.random();
+        });
+
+        $rootScope.$emit("recreateColumns");
+    };
 
 });
 

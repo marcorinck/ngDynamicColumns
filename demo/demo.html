@@ -1,22 +1,17 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>angular-growl demo</title>
+    <title>ngDynamicColumns Demo</title>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.0/angular.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.0/angular-animate.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.0/angular-mocks.js"></script>
     <link href="http://netdna.bootstrapcdn.com//twitter-bootstrap/2.3.2/css/bootstrap-combined.min.css" rel="stylesheet">
-    <!--<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css">-->
 
     <script src="../src/ngDynamicColumns.js"></script>
     <script src="../src/ColumnHeaderDirective.js"></script>
     <script src="../src/DynamicColumnService.js"></script>
     <script src="../src/DynamicRowDirective.js"></script>
 
-    <!--<link href="../src/growl.css" rel="stylesheet">-->
-    <!--<script src="../src/growl.js"></script>-->
-    <!--<script src="../src/growlDirective.js"></script>-->
-    <!--<script src="../src/growlFactory.js"></script>-->
     <script src="demo.js"></script>
 </head>
 <body ng-app="demo">
@@ -74,6 +69,13 @@
             <div ng-repeat="column in columns" >
                 ID: <span ng-bind="column.id"></span> visible: <input type="checkbox" ng-model="column.visible" ng-change="columnChanged(column)" >
             </div>
+        </div>
+        <div class="well row">
+            <input ng-click="shuffleColumns()" type="button" value="Shuffle column order"/><br />
+            <p>Warning! This rerenders complete table with all elements, which can take a long time when the table has many DOM elements.</p>
+
+            <p>In a real world application you should emit the 'columnOrderChanged' event to <strong>move</strong> a column to another column, for example after a drag and drop action by the user.
+               This is not implemented in this demo. </p>
         </div>
 
     </div>
