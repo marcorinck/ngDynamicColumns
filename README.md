@@ -15,8 +15,8 @@ Inside your angularJS app define a dependency to 'ngDynamicColumns' like this: `
 
 ##Usage
 
-ngDynamicColumns currently is specifically designed to render the <td> and <th> tags of a html table. This is an example
-usage:
+ngDynamicColumns currently is specifically designed to render the &lt;td&gt; and &lt;th&gt; tags of a html table.
+This is an example usage:
 
 ````html
 <table>
