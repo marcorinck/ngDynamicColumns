@@ -31,7 +31,7 @@
 			columns.forEach(function (column) {
 				var options = {
 					directive: column[directiveName],
-					clazz: column.clazz,
+					clazz: column.clazz || '',
 					id: column.id
 				};
 
