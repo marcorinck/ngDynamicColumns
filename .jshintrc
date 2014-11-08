@@ -1,0 +1,24 @@
+{
+  "curly": true,
+  "eqeqeq": true,
+  "immed": true,
+  "latedef": true,
+  "newcap": true,
+  "noarg": true,
+  "sub": true,
+  "undef": true,
+  "boss": true,
+  "eqnull": true,
+  "unused": true,
+  "strict": true,
+  "bitwise": true,
+  "trailing": true,
+  "nonew": true,
+  "forin": true,
+  "globals": {
+    "angular": true,
+    "describe": true,
+    "it": true,
+    "expect": true
+  }
+}

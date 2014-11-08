@@ -1,4 +1,8 @@
-angular.module("ngDynamicColumns", []);
+/**
+ * ngDynamicColumns - v0.1.0 - 2014-11-08
+ * https://github.com/marcorinck/ngDynamicColumns
+ * Copyright (c) 2014 Marco Rinck; Licensed MIT
+ */
 angular.module("ngDynamicColumns").directive("columnHeader", function ($rootScope, dynamicColumnService) {
     "use strict";
 
@@ -36,6 +40,7 @@ angular.module("ngDynamicColumns").directive("columnHeader", function ($rootScop
     };
 });
 angular.module("ngDynamicColumns").factory("dynamicColumnService", function ($compile) {
+    "use strict";
 
     function getTh(options) {
         return '<table><tr><th data-col-id="' + options.id + '"' + options.directive + ' class="' + options.clazz + '"></th></tr></table>';
@@ -152,6 +157,7 @@ angular.module("ngDynamicColumns").factory("dynamicColumnService", function ($co
         changeColumnOrder: changeColumnOrder
     };
 });
+
 angular.module("ngDynamicColumns").directive("dynamicRow", function ($rootScope, dynamicColumnService) {
     "use strict";
     return {
@@ -182,3 +188,5 @@ angular.module("ngDynamicColumns").directive("dynamicRow", function ($rootScope,
         }
     };
 });
+
+angular.module("ngDynamicColumns", []);

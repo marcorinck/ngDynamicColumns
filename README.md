@@ -9,6 +9,8 @@ too.
 The cell contents and the contents of the headers are defined with their own directives so that they can be as complex
 and flexible as angularJS allows. You can use every angularJS feature in them as you like.
 
+[See it in action on the Demo site](http://marcorinck.github.io/ngDynamicColumns/)
+
 ##Installation
 
 * with bower: `bower install ngDynamicColumns` (not yet!)
@@ -16,26 +18,17 @@ and flexible as angularJS allows. You can use every angularJS feature in them as
 
 Inside your angularJS app define a dependency to 'ngDynamicColumns' like this: `angular.module("app", ["ngDynamicColumns"])`
 
-##Configuration
+The current version is only tested with angularJS 1.3.x, but it should run on older version too. Even 1.0.x versions
+should be working without problems.
 
-Both directives need the same configuration object to render the columns. The object should be an array of objects and
-the objects need to have these attributes:
-
-`insert more doc here`
-
-Example:
-
-````javascript
-$scope.columns = [
-    {"id": "manufacturer", rowDirective: "manufacturer", columnDirective: 'manufacturer-header', visible: true, clazz: 'manufacturerClass'},
-    {"id": "model", rowDirective: "model", columnDirective: 'model-header', visible: true, clazz: 'modelClass'},
-];
-
-````
+An ES5 browser is needed when using this module. If you have to support IE 8 and below, use
+[es5-shim](https://github.com/es-shims/es5-shim).
 
 ##Usage
 
-ngDynamicColumns currently is specifically designed to render the &lt;td&gt; and &lt;th&gt; tags of a html table.
+ngDynamicColumns currently is specifically designed to render the &lt;td&gt; and &lt;th&gt; tags in complex and/or
+huge html tables. If you only have small and simple tables, this module is probably not for you.
+
 This is an example usage:
 
 ````html
@@ -49,6 +42,7 @@ This is an example usage:
 </table>
 ````
 
+
 ###dynamic-row directive
 
 This directive should be used in conjunction with a ng-repeat on a tr element and renders for every repeat a set of
@@ -60,10 +54,70 @@ how to render the columns/td tags. See below for info about this configuration o
 This directive should be used on a tr element in a thead section and renders th elements according to the column
 configuration object.
 
-###Events
+##Configuration
+
+Both directives need the same column configuration to render the columns. The configuration should be an array of objects
+which need to have these mandatory properties:
+
+>{String} id
+
+  A unique id for the column
+
+>{String} rowDirective
+
+  The directive name used to render the cells (&lt;td&gt; tags). This directive is used to render your table data and you need
+  to implement this directive yourself.
+
+>{String} columnDirective (optional when not using column-header directive)
+
+  The directive name used to render the header (&lt;th&gt; tags). This directive is used when you want to have a header in
+   your table and you have to implement the directive yourself. If you don't use the column-header directive you can omit
+   this property.
+
+>{boolean} visible
+
+  Indicates if this column is visible or not. Note, that the DOM elements for the column will be created even when
+  currently not visible. This is done to speed up performance when the column will be displayed later.
+  The class 'ng-hide' of angularJS is used to hide the column when not visible.
+
+
+>{String} clazz (optional)
+
+  If set, this class will be set on every element in your column (&lt;td&gt; __and__ &lt;th&gt; tags), so you can style
+  your columns individually.
+
+
+Example column configuration:
+
+````javascript
+$scope.columns = [
+    {"id": "column1", rowDirective: "column1cell", columnDirective: 'column1header', visible: true, clazz: 'column1class'},
+    {"id": "column2", rowDirective: "column2cell", columnDirective: 'column2header', visible: false, clazz: 'column2class'},
+];
+
+````
+
+##Scope and column directives (templates)
+
+  Both directives don't use an isolated scope which is normally a good practive to avoid conflicts with surrounding
+  scopes.
+
+  But as you are writing your own directives which will be used by this module to render your datatable, isolated
+  scope would mean, that you would have no access whatsoever to your application controller. An alternative would be
+  to only give access to some to-be-defined properties, which would complicate usage quite a lot.
+
+  Therefore, ngDynamicColumns is using its parent scope (=your application controller), so you can access your
+  controller properties and methods in your column templates (aka directives). To make use of that, your directive
+  __must not__ set the scope property, so they don't create new scopes for themselves!
+
+  To minimize its footprint and avoid conflicts, this module is adding no properties whatsoever on the scope.
+
+
+##Events
 
 As ngDynamicColumns was designed to be used with complex and huge tables in mind, it does not use any watchers by itself
-to minimize impact on performance (though your column and row directives can use watchers of course).
+to minimize impact on performance (though your column and row directives can use watchers of course). It therefore doesn
+not do anything by itself to avoid unwanted DOM operations.
 
 So, to rerender the table after changes in the column configuration you have to emit events on the $rootScope.
 ngDynamicColumns acts on these events:
@@ -76,7 +130,14 @@ ngDynamicColumns acts on these events:
 * __columnOrderChanged__ - this event __moves__ one column to the place of another column. It expects two paramters: the
  source column ID and the destination column ID. This can be used for instance after a drag and drop action by the user
  who moves columns around. As this does not delete elements from the DOM but moves existing elements to another place, its
- very fast even in huge and complex tables.
+ very fast even in huge and complex tables.<br />
+ The moved column will be inserted after the destination column depending on the move direction. If you move
+ a column to the right, the moved column will be inserted to the right of the destination column. If you move
+ a column to the left, the moved column will be inserted to the left of the destination column. This is done, so a
+ user can actually move a column as first column with only one drag&drop action.<br />
+ __Warning:__ This only moves the DOM elements around, but does not change the
+ actual column configuration. To avoid getting DOM and column configuration out of sync, you have to move the
+ corresponding columns in the column configuration by yourself!
 
 ###Content directives
 
