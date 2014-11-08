@@ -18,6 +18,12 @@ and flexible as angularJS allows. You can use every angularJS feature in them as
 
 Inside your angularJS app define a dependency to 'ngDynamicColumns' like this: `angular.module("app", ["ngDynamicColumns"])`
 
+The current version is only tested with angularJS 1.3.x, but it should run on older version too. Even 1.0.x versions
+should be working without problems.
+
+An ES5 browser is needed when using this module. If you have to support IE 8 and below, use
+[es5-shim](https://github.com/es-shims/es5-shim).
+
 ##Usage
 
 ngDynamicColumns currently is specifically designed to render the &lt;td&gt; and &lt;th&gt; tags in complex and/or
@@ -124,11 +130,11 @@ ngDynamicColumns acts on these events:
 * __columnOrderChanged__ - this event __moves__ one column to the place of another column. It expects two paramters: the
  source column ID and the destination column ID. This can be used for instance after a drag and drop action by the user
  who moves columns around. As this does not delete elements from the DOM but moves existing elements to another place, its
- very fast even in huge and complex tables.
+ very fast even in huge and complex tables.<br />
  The moved column will be inserted after the destination column depending on the move direction. If you move
  a column to the right, the moved column will be inserted to the right of the destination column. If you move
  a column to the left, the moved column will be inserted to the left of the destination column. This is done, so a
- user can actually move a column as first column with only one drag&drop action.
+ user can actually move a column as first column with only one drag&drop action.<br />
  __Warning:__ This only moves the DOM elements around, but does not change the
  actual column configuration. To avoid getting DOM and column configuration out of sync, you have to move the
  corresponding columns in the column configuration by yourself!
