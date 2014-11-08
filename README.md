@@ -20,24 +20,52 @@ Inside your angularJS app define a dependency to 'ngDynamicColumns' like this: `
 
 ##Configuration
 
-Both directives need the same configuration object to render the columns. The object should be an array of objects and
-the objects need to have these attributes:
+Both directives need the same column configuration to render the columns. The configuration should be an array of objects
+which need to have these mandatory properties:
 
-`insert more doc here`
+>{String} id
 
-Example:
+  A unique id for the column
+
+>{String} rowDirective
+
+  The directive name used to render the cells (&lt;td&gt; tags). This directive is used to render your table data and you need
+  to implement this directive yourself.
+
+>{String} columnDirective (optional when not using column-header directive)
+
+  The directive name used to render the header (&lt;th&gt; tags). This directive is used when you want to have a header in
+   your table and you have to implement the directive yourself. If you don't use the column-header directive you can omit
+   this property.
+
+>{boolean} visible
+
+  Indicates if this column is visible or not. Note, that the DOM elements for the column will be created even when
+  currently not visible. This is done to speed up performance when the column will be displayed later.
+  The class 'ng-hide' of angularJS is used to hide the column when not visible.
+
+
+>{String} clazz (optional)
+
+  If set, this class will be set on every element in your column (&lt;td&gt; __and__ &lt;th&gt; tags), so you can style
+  your columns individually.
+
+
+Example column configuration:
 
 ````javascript
 $scope.columns = [
-    {"id": "manufacturer", rowDirective: "manufacturer", columnDirective: 'manufacturer-header', visible: true, clazz: 'manufacturerClass'},
-    {"id": "model", rowDirective: "model", columnDirective: 'model-header', visible: true, clazz: 'modelClass'},
+    {"id": "column1", rowDirective: "column1cell", columnDirective: 'column1header', visible: true, clazz: 'column1class'},
+    {"id": "column2", rowDirective: "column2cell", columnDirective: 'column2header', visible: false, clazz: 'column2class'},
 ];
 
 ````
 
 ##Usage
 
-ngDynamicColumns currently is specifically designed to render the &lt;td&gt; and &lt;th&gt; tags of a html table.
+ngDynamicColumns currently is specifically designed to render the &lt;td&gt; and &lt;th&gt; tags in complex and/or
+huge html tables. If you only have small and simple tables, this module is probably not for you.
+
 This is an example usage:
 
 ````html
@@ -78,7 +106,9 @@ ngDynamicColumns acts on these events:
 * __columnOrderChanged__ - this event __moves__ one column to the place of another column. It expects two paramters: the
  source column ID and the destination column ID. This can be used for instance after a drag and drop action by the user
  who moves columns around. As this does not delete elements from the DOM but moves existing elements to another place, its
- very fast even in huge and complex tables.
+ very fast even in huge and complex tables. __Warning:__ This only moves the DOM elements around, but does not change the
+ actual column configuration. To avoid getting out of sync, you have to move the corresponding columns in the column
+ configuration too!
 
 ###Content directives
 
