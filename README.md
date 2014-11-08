@@ -18,6 +18,36 @@ and flexible as angularJS allows. You can use every angularJS feature in them as
 
 Inside your angularJS app define a dependency to 'ngDynamicColumns' like this: `angular.module("app", ["ngDynamicColumns"])`
 
+##Usage
+
+ngDynamicColumns currently is specifically designed to render the &lt;td&gt; and &lt;th&gt; tags in complex and/or
+huge html tables. If you only have small and simple tables, this module is probably not for you.
+
+This is an example usage:
+
+````html
+<table>
+  <thead>
+    <tr column-header="columns"/>
+  </thead>
+  <tbody>
+    <tr ng-repeat="item in items" dynamic-row="columns" />
+  </tbody>
+</table>
+````
+
+
+###dynamic-row directive
+
+This directive should be used in conjunction with a ng-repeat on a tr element and renders for every repeat a set of
+td elements in the desired order. This directive needs a column configurstion object to get the neccessary information
+how to render the columns/td tags. See below for info about this configuration object.
+
+###column-header directive
+
+This directive should be used on a tr element in a thead section and renders th elements according to the column
+configuration object.
+
 ##Configuration
 
 Both directives need the same column configuration to render the columns. The configuration should be an array of objects
@@ -61,39 +91,27 @@ $scope.columns = [
 
 ````
 
-##Usage
+##Scope and column directives (templates)
 
-ngDynamicColumns currently is specifically designed to render the &lt;td&gt; and &lt;th&gt; tags in complex and/or
-huge html tables. If you only have small and simple tables, this module is probably not for you.
+  Both directives don't use an isolated scope which is normally a good practive to avoid conflicts with surrounding
+  scopes.
 
-This is an example usage:
+  But as you are writing your own directives which will be used by this module to render your datatable, isolated
+  scope would mean, that you would have no access whatsoever to your application controller. An alternative would be
+  to only give access to some to-be-defined properties, which would complicate usage quite a lot.
 
-````html
-<table>
-  <thead>
-    <tr column-header="columns"/>
-  </thead>
-  <tbody>
-    <tr ng-repeat="item in items" dynamic-row="columns" />
-  </tbody>
-</table>
-````
+  Therefore, ngDynamicColumns is using its parent scope (=your application controller), so you can access your
+  controller properties and methods in your column templates (aka directives). To make use of that, your directive
+  __must not__ set the scope property, so they don't create new scopes for themselves!
 
-###dynamic-row directive
+  To minimize its footprint and avoid conflicts, this module is adding no properties whatsoever on the scope.
 
-This directive should be used in conjunction with a ng-repeat on a tr element and renders for every repeat a set of
-td elements in the desired order. This directive needs a column configurstion object to get the neccessary information
-how to render the columns/td tags. See below for info about this configuration object.
 
-###column-header directive
-
-This directive should be used on a tr element in a thead section and renders th elements according to the column
-configuration object.
-
-###Events
+##Events
 
 As ngDynamicColumns was designed to be used with complex and huge tables in mind, it does not use any watchers by itself
-to minimize impact on performance (though your column and row directives can use watchers of course).
+to minimize impact on performance (though your column and row directives can use watchers of course). It therefore doesn
+not do anything by itself to avoid unwanted DOM operations.
 
 So, to rerender the table after changes in the column configuration you have to emit events on the $rootScope.
 ngDynamicColumns acts on these events:
@@ -106,9 +124,14 @@ ngDynamicColumns acts on these events:
 * __columnOrderChanged__ - this event __moves__ one column to the place of another column. It expects two paramters: the
  source column ID and the destination column ID. This can be used for instance after a drag and drop action by the user
  who moves columns around. As this does not delete elements from the DOM but moves existing elements to another place, its
- very fast even in huge and complex tables. __Warning:__ This only moves the DOM elements around, but does not change the
- actual column configuration. To avoid getting out of sync, you have to move the corresponding columns in the column
- configuration too!
+ very fast even in huge and complex tables.
+ The moved column will be inserted after the destination column depending on the move direction. If you move
+ a column to the right, the moved column will be inserted to the right of the destination column. If you move
+ a column to the left, the moved column will be inserted to the left of the destination column. This is done, so a
+ user can actually move a column as first column with only one drag&drop action.
+ __Warning:__ This only moves the DOM elements around, but does not change the
+ actual column configuration. To avoid getting DOM and column configuration out of sync, you have to move the
+ corresponding columns in the column configuration by yourself!
 
 ###Content directives
 
