@@ -1,1 +1,5 @@
-angular.module("ngDynamicColumns", []);
+(function (angular) {
+	"use strict";
+
+	angular.module("ngDynamicColumns", []);
+})(angular);
