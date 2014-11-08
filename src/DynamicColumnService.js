@@ -1,5 +1,6 @@
 /*global angular:true*/
 angular.module("ngDynamicColumns").factory("dynamicColumnService", function ($compile) {
+    "use strict";
 
     function getTh(options) {
         return '<table><tr><th data-col-id="' + options.id + '"' + options.directive + ' class="' + options.clazz + '"></th></tr></table>';
