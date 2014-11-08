@@ -1,4 +1,3 @@
-/*global angular:true*/
 angular.module("ngDynamicColumns").directive("columnHeader", function ($rootScope, dynamicColumnService) {
     "use strict";
 

@@ -1,4 +1,3 @@
-/*global angular:true*/
 angular.module("ngDynamicColumns").factory("dynamicColumnService", function ($compile) {
     "use strict";
 

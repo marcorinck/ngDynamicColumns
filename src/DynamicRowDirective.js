@@ -1,4 +1,3 @@
-/*global angular:true*/
 angular.module("ngDynamicColumns").directive("dynamicRow", function ($rootScope, dynamicColumnService) {
     "use strict";
     return {
