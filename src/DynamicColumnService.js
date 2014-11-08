@@ -1,118 +1,115 @@
-angular.module("ngDynamicColumns").factory("dynamicColumnService", function ($compile) {
-    "use strict";
+(function (angular) {
+	"use strict";
 
-    function getTh(options) {
-        return '<table><tr><th data-col-id="' + options.id + '"' + options.directive + ' class="' + options.clazz + '"></th></tr></table>';
-    }
+	angular.module("ngDynamicColumns").factory("dynamicColumnService", function ($compile) {
 
-    function getTd(options) {
-        return '<table><tr><td data-col-id="' + options.id + '"' + options.directive + ' class="' + options.clazz + '"></td></tr></table>';
-    }
+		function getTh(options) {
+			return '<table><tr><th data-col-id="' + options.id + '"' + options.directive + ' class="' + options.clazz + '"></th></tr></table>';
+		}
 
-    function createElement(elementName, options) {
-        var element;
+		function getTd(options) {
+			return '<table><tr><td data-col-id="' + options.id + '"' + options.directive + ' class="' + options.clazz + '"></td></tr></table>';
+		}
 
-        if (elementName === "th") {
-            element = getTh(options);
-        } else if (elementName === "td") {
-            element = getTd(options);
-        }
+		function createElement(elementName, options) {
+			var element;
 
-        element = angular.element(element);
+			if (elementName === "th") {
+				element = getTh(options);
+			} else if (elementName === "td") {
+				element = getTd(options);
+			}
 
-        return element.find(elementName);
-    }
+			return angular.element(element).find(elementName);
+		}
 
-    function render(scope, element, columns, directiveName, elementName) {
-        var column, i, html, options;
+		function render(scope, element, columns, directiveName, elementName) {
+			if (element.children()) {
+				element.children().remove();
+			}
 
-        if (element.children()) {
-            element.children().remove();
-        }
+			columns.forEach(function (column) {
+				var options = {
+					directive: column[directiveName],
+					clazz: column.clazz,
+					id: column.id
+				};
 
-        for (i = 0; i < columns.length; i++) {
-            column = columns[i];
+				if (!column.visible) {
+					options.clazz = options.clazz + " ng-hide";
+				}
 
-            options = {
-                directive: column[directiveName],
-                clazz: column.clazz,
-                id: column.id
-            };
+				element.append($compile(createElement(elementName, options))(scope));
+			});
+		}
 
-            if (!column.visible) {
-                options.clazz = options.clazz + " ng-hide";
-            }
-            html = $compile(createElement(elementName, options))(scope);
-            element.append(html);
-        }
-    }
+		function renderRow(scope, element, columns) {
+			render(scope, element, columns, "rowDirective", "td");
+		}
 
-    function renderRow(scope, element, columns) {
-        render(scope, element, columns, "rowDirective", "td");
-    }
+		function renderColumn(scope, element, columns) {
+			render(scope, element, columns, "columnDirective", "th");
+		}
 
-    function renderColumn(scope, element, columns) {
-        render(scope, element, columns, "columnDirective", "th");
-    }
+		function toggleColumn($element, toggledColumnId) {
+			var columnElement, columnId, children = $element.children();
 
-    function toggleColumn($element, toggledColumnId) {
-        var i, columnElement, columnId;
-        for (i = 0; i < $element.children().length; i++) {
-            columnElement = $element.children()[i];
-            columnId = columnElement.attributes["data-col-id"].nodeValue;
+			Object.keys(children).some(function (key) {
+				columnElement = children[key];
+				columnId = columnElement.attributes["data-col-id"].value;
 
-            if (columnId === toggledColumnId) {
-                columnElement = angular.element(columnElement);
-                if (columnElement.hasClass("ng-hide")) {
-                    angular.element(columnElement).removeClass("ng-hide");
-                } else {
-                    angular.element(columnElement).addClass("ng-hide");
-                }
-                break;
-            }
-        }
-    }
+				if (columnId === toggledColumnId) {
+					columnElement = angular.element(columnElement);
+					if (columnElement.hasClass("ng-hide")) {
+						angular.element(columnElement).removeClass("ng-hide");
+					} else {
+						angular.element(columnElement).addClass("ng-hide");
+					}
+					return true;
+				}
+			});
+		}
 
-    function changeColumnOrder($element, source, dest) {
-        var i,forward = false, temp, children = $element.children(),
-            sourceElement, destElement, sourceIndex, destIndex;
+		function changeColumnOrder($element, source, dest) {
+			var forward = false, temp, children = $element.children(),
+				sourceElement, destElement;
 
-        for (i=0;i<children.length;i++) {
-            var child = children[i], columnId;
-            columnId = child.attributes["data-col-id"].nodeValue;
-            if (columnId === source) {
-                sourceElement = angular.element(child);
-                sourceIndex = i;
-            } else if (columnId === dest) {
-                destElement = angular.element(child);
-                destIndex = i;
-                if (!sourceElement) {
-                    forward = true;
-                }
-            }
+			Object.keys(children).some(function (key) {
+				var columnId = children[key].attributes["data-col-id"].value;
 
-            if (sourceElement && destElement) {
-                break;
-            }
-        }
+				if (columnId === source) {
+					sourceElement = angular.element(children[key]);
+				} else if (columnId === dest) {
+					destElement = angular.element(children[key]);
 
-        if (sourceElement && destElement) {
-            if (forward) {
-                temp = destElement.after(sourceElement);
-                sourceElement.after(temp);
+					if (!sourceElement) {
+						forward = true;
+					}
+				}
 
-            } else {
-                destElement.after(sourceElement);
-            }
-        }
+				if (sourceElement && destElement) {
+					return true;
+				}
+			});
 
-        return {sourceIndex: sourceIndex, destIndex: destIndex};
-    }
 
-    return {
-        renderRow: renderRow,
-        renderColumn: renderColumn,
-        toggleColumn: toggleColumn,
-        changeColumnOrder: changeColumnOrder
-    };
-});
+			if (sourceElement && destElement) {
+				if (forward) {
+					temp = destElement.after(sourceElement);
+					sourceElement.after(temp);
+
+				} else {
+					destElement.after(sourceElement);
+				}
+			}
+		}
+
+		return {
+			renderRow: renderRow,
+			renderColumn: renderColumn,
+			toggleColumn: toggleColumn,
+			changeColumnOrder: changeColumnOrder
+		};
+	});
+
+})(angular);
