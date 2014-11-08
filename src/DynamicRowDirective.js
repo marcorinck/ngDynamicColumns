@@ -1,7 +1,7 @@
 (function (angular) {
 	"use strict";
 
-	angular.module("ngDynamicColumns").directive("dynamicRow", function ($rootScope, dynamicColumnService) {
+	angular.module("ngDynamicColumns").directive("dynamicRow", ['$rootScope', 'dynamicColumnService', function ($rootScope, dynamicColumnService) {
 
 		return {
 			restrict: 'A',
@@ -28,6 +28,6 @@
 				});
 			}
 		};
-	});
+	}]);
 
 })(angular);

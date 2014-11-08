@@ -1,7 +1,7 @@
 (function (angular) {
 	"use strict";
 
-	angular.module("ngDynamicColumns").factory("dynamicColumnService", function ($compile) {
+	angular.module("ngDynamicColumns").factory("dynamicColumnService", ['$compile', function ($compile) {
 
 		function getTh(options) {
 			return '<table><tr><th data-col-id="' + options.id + '"' + options.directive + ' class="' + options.clazz + '"></th></tr></table>';
@@ -110,6 +110,6 @@
 			toggleColumn: toggleColumn,
 			changeColumnOrder: changeColumnOrder
 		};
-	});
+	}]);
 
 })(angular);
