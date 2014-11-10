@@ -137,9 +137,7 @@ ngDynamicColumns acts on these events:
  user can actually move a column as first column with only one drag&drop action.<br />
  __Warning:__ This also changes the column configuration array in your scope so you don't have to implement the same
  sorting behaviour as this event does, to also change the column configuration. If you don't want this, you can specify
- a third event parameter:
-
- 	$rootScope.$emit("columnOrderChanged", "sourceColumn", "destColumn", {skipUpdatingColumnConfiguration: true});
+ a third event parameter: `$rootScope.$emit("columnOrderChanged", "sourceColumn", "destColumn", {skipUpdatingColumnConfiguration: true});`
 
 ###Content directives
 
