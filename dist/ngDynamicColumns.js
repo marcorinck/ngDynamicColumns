@@ -1,5 +1,5 @@
 /**
- * ngDynamicColumns - v0.2.0 - 2014-11-08
+ * ngDynamicColumns - v0.2.1 - 2014-11-10
  * https://github.com/marcorinck/ngDynamicColumns
  * Copyright (c) 2014 Marco Rinck; Licensed MIT
  */
@@ -111,15 +111,17 @@
 
 		function changeColumnOrder($element, source, dest) {
 			var forward = false, temp, children = $element.children(),
-				sourceElement, destElement;
+				sourceElement, destElement, sourceIndex, destIndex;
 
-			Object.keys(children).some(function (key) {
+			Object.keys(children).some(function (key, index) {
 				var columnId = children[key].attributes["data-col-id"].value;
 
 				if (columnId === source) {
 					sourceElement = angular.element(children[key]);
+					sourceIndex = index;
 				} else if (columnId === dest) {
 					destElement = angular.element(children[key]);
+					destIndex = index;
 
 					if (!sourceElement) {
 						forward = true;
@@ -140,7 +142,14 @@
 				} else {
 					destElement.after(sourceElement);
 				}
+
+				return {
+					destIndex: destIndex,
+					sourceIndex: sourceIndex
+				};
 			}
+
+			return null;
 		}
 
 		return {
@@ -157,6 +166,7 @@
 	"use strict";
 
 	angular.module("ngDynamicColumns").directive("dynamicRow", ['$rootScope', 'dynamicColumnService', function ($rootScope, dynamicColumnService) {
+		var $event;
 
 		return {
 			restrict: 'A',
@@ -178,8 +188,15 @@
 					dynamicColumnService.renderRow(scope, element, scope[attrs.dynamicRow]);
 				});
 
-				$rootScope.$on("columnOrderChanged", function (event, sourceId, destinationId) {
-					dynamicColumnService.changeColumnOrder(element, sourceId, destinationId);
+				$rootScope.$on("columnOrderChanged", function (event, sourceId, destinationId, options) {
+					var indexes = dynamicColumnService.changeColumnOrder(element, sourceId, destinationId),
+						_options = options || {};
+
+					//move columns in column configuration too, but only once per event ...
+					if ($event !== event && !_options.skipUpdatingColumnConfiguration) {
+						scope[attrs.dynamicRow].splice(indexes.destIndex, 0, scope[attrs.dynamicRow].splice(indexes.sourceIndex,1)[0]);
+						$event = event;
+					}
 				});
 			}
 		};

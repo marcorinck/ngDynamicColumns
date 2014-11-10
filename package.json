@@ -1,7 +1,7 @@
 {
   "name": "ngDynamicColumns",
   "homepage": "https://github.com/marcorinck/ngDynamicColumns",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "author": "Marco Rinck <marco.rinck@googlemail.com>",
   "description": "ngDynamicColumns: Render dynamic table columns in a user-customizable order as an angularJS directive",
   "bugs": {
