@@ -2,6 +2,7 @@
 	"use strict";
 
 	angular.module("ngDynamicColumns").directive("dynamicRow", ['$rootScope', 'dynamicColumnService', function ($rootScope, dynamicColumnService) {
+		var $event;
 
 		return {
 			restrict: 'A',
@@ -23,8 +24,15 @@
 					dynamicColumnService.renderRow(scope, element, scope[attrs.dynamicRow]);
 				});
 
-				$rootScope.$on("columnOrderChanged", function (event, sourceId, destinationId) {
-					dynamicColumnService.changeColumnOrder(element, sourceId, destinationId);
+				$rootScope.$on("columnOrderChanged", function (event, sourceId, destinationId, options) {
+					var indexes = dynamicColumnService.changeColumnOrder(element, sourceId, destinationId),
+						_options = options || {};
+
+					//move columns in column configuration too, but only once per event ...
+					if ($event !== event && !_options.skipUpdatingColumnConfiguration) {
+						scope[attrs.dynamicRow].splice(indexes.destIndex, 0, scope[attrs.dynamicRow].splice(indexes.sourceIndex,1)[0]);
+						$event = event;
+					}
 				});
 			}
 		};

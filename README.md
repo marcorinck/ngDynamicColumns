@@ -135,9 +135,11 @@ ngDynamicColumns acts on these events:
  a column to the right, the moved column will be inserted to the right of the destination column. If you move
  a column to the left, the moved column will be inserted to the left of the destination column. This is done, so a
  user can actually move a column as first column with only one drag&drop action.<br />
- __Warning:__ This only moves the DOM elements around, but does not change the
- actual column configuration. To avoid getting DOM and column configuration out of sync, you have to move the
- corresponding columns in the column configuration by yourself!
+ __Warning:__ This also changes the column configuration array in your scope so you don't have to implement the same
+ sorting behaviour as this event does, to also change the column configuration. If you don't want this, you can specify
+ a third event parameter:
+
+ 	$rootScope.$emit("columnOrderChanged", "sourceColumn", "destColumn", {skipUpdatingColumnConfiguration: true});
 
 ###Content directives
 
