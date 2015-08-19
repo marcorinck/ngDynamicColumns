@@ -3,7 +3,7 @@
 
     var app = angular.module("demo", ["ngDynamicColumns"]);
 
-    app.controller("demoCtrl", function demoCtrl($scope, $rootScope, personService, $filter) {
+    app.controller("demoCtrl", function demoCtrl($scope, $rootScope, personService) {
         var dateColumn = {"id": "date", rowDirective: "datecolumn", columnDirective: 'datecolumn-header', visible: true}, uniqueDates = [],
 	        personalKeys = ['id', 'lastName', 'firstName', 'medicalInfo', 'contactNumber'],
 	        columns = [
@@ -28,7 +28,7 @@
 			    }
 		    });
 
-		    uniqueDates.sort(function(a, b){return a-b});
+		    uniqueDates.sort(function(a, b){return a-b;});
 
 		    uniqueDates.forEach(function (date) {
 			    var column = angular.copy(dateColumn);
@@ -62,9 +62,32 @@
 	    $scope.randomizePersons = function() {
 		    initPersons();
 	    };
+
+		$scope.isVisible = function (person) {
+			var isVisible = false;
+			for (var key in person) {
+				if (person.hasOwnProperty(key)) {
+					if (personalKeys.indexOf(key) === -1) {
+						for (var i = 0; i < $scope.columns.length; i++) {
+							var column = $scope.columns[i];
+							if (column.id === 'date' + key && column.visible) {
+								isVisible = true;
+								break;
+							}
+						}
+
+						if (isVisible) {
+							break;
+						}
+					}
+				}
+			}
+
+			return isVisible;
+		};
     });
 
-    app.directive("lastname", function() {
+	app.directive("lastname", function() {
         return {
             restrict: "A",
             template: "<div><strong>{{ person.lastName }}</strong></div>"

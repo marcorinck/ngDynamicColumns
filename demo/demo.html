@@ -27,7 +27,7 @@
 					<tr column-header="columns"></tr>
 					</thead>
 					<tbody class="ui-datatable-data ui-widget-content">
-					<tr ng-repeat="person in persons track by person.id" dynamic-row="columns"></tr>
+					<tr ng-repeat="person in persons  | filter:isVisible track by person.id" dynamic-row="columns"></tr>
 					</tbody>
 				</table>
 			</div>
