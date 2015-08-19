@@ -3,29 +3,45 @@
 
     var app = angular.module("demo", ["ngDynamicColumns"]);
 
-    app.controller("demoCtrl", function demoCtrl($scope, $rootScope) {
+    app.controller("demoCtrl", function demoCtrl($scope, $rootScope, personService, $filter) {
+        var dateColumn = {"id": "date", rowDirective: "datecolumn", columnDirective: 'datecolumn-header', visible: true}, uniqueDates = [],
+	        personalKeys = ['id', 'lastName', 'firstName', 'medicalInfo', 'contactNumber'],
+	        columns = [
+	            {"id": "lastName", rowDirective: "lastname", columnDirective: 'lastname-header', visible: true},
+	            {"id": "firstName", rowDirective: "firstname", columnDirective: 'firstname-header',visible: true},
+	            {"id": "contactNumber", rowDirective: "contactnumber", columnDirective: 'contactnumber-header',visible: true},
+	            {"id": "medicalInfo", rowDirective: "medicalinfo", columnDirective: 'medicalinfo-header',visible: true}
 
-        $scope.columns = [
-            {"id": "manufacturer", rowDirective: "manufacturer", columnDirective: 'manufacturer-header', visible: true, clazz: 'manufacturerClass'},
-            {"id": "model", rowDirective: "model", columnDirective: 'model-header', visible: true, clazz: 'modelClass'},
-            {"id": "desc", rowDirective: "desc", columnDirective: 'desc-header', visible: true, clazz: 'descClass'},
-            {"id": "ram", rowDirective: "ram", columnDirective: 'ram-header', visible: true, clazz: 'ramClass'},
-            {"id": "cpu", rowDirective: "cpu", columnDirective: 'cpu-header', visible: false, clazz: 'cpuClass'},
-            {"id": "year", rowDirective: "year", columnDirective: 'year-header', visible: true, clazz: 'yearClass'},
-            {"id": "lte", rowDirective: "lte", columnDirective: 'lte-header', visible: true, clazz: 'lteClass'},
-            {"id": "resolution", rowDirective: "resolution", columnDirective: 'resolution-header', visible: false, clazz: 'resolutionClass'}
+	        ];
 
-        ];
+	    function initPersons() {
+		    uniqueDates = [];
 
-        $scope.phones = [
-            {id: 1, model: { manufacturer: "Apple", model: "iPhone 5s", desc: "the new top model", ram: "1GB", cpu: "A7", year: "2013", lte: true, resolution: "xxx" }},
-            {id: 2, model: { manufacturer: "Apple", model: "iPhone 5c", desc: "The lesser new top model", ram: "1 GB", cpu: "A6", year: "2013", lte: true, resolution: "yyyy" }},
-            {id: 3, model: { manufacturer: "Samsung", model: "Galaxy S4", desc: "The top android stuff only here", ram: "2 GB", cpu: "ARM 123", year: "2013", lte: true, resolution: "zzz" }},
-            {id: 4, model: { manufacturer: "Google", model: "Nexus 5", desc: "Its shiny!", ram: "2 GB", cpu: "has one", year: "2013", lte: true, resolution: "aaaa" }},
-            {id: 5, model: { manufacturer: "Nokia", model: "Lumia", desc: "tiles everywhere", ram: "1 GB", cpu: "yes", year: "2012", lte: false, resolution: "big!" }},
-            {id: 6, model: { manufacturer: "HTC", model: "", desc: "", ram: "", cpu: "", year: "", lte: true, resolution: "" }},
-            {id: 7, model: { manufacturer: "Apple", model: "iPhone 4", desc: "its too old!", ram: "512 MB", cpu: "A5", year: "2010", lte: false, resolution: "yep" }}
-        ];
+		    $scope.columns = angular.copy(columns);
+		    personService.randomize();
+		    $scope.persons = personService.persons;
+		    $scope.persons.forEach(function(person) {
+			    for (var key in person) {
+				    if (person.hasOwnProperty(key) && personalKeys.indexOf(key) === -1 && uniqueDates.indexOf(key) === -1) {
+					    uniqueDates.push(key);
+				    }
+			    }
+		    });
+
+		    uniqueDates.sort(function(a, b){return a-b});
+
+		    uniqueDates.forEach(function (date) {
+			    var column = angular.copy(dateColumn);
+
+			    column.id = column.id + date;
+			    $scope.columns.push(column);
+		    });
+
+		    $rootScope.$emit("recreateColumns");
+
+	    }
+
+        initPersons();
 
         $scope.columnChanged = function(column) {
             $rootScope.$emit("columnToggled", column.id);
@@ -43,119 +59,94 @@
             $rootScope.$emit("recreateColumns");
         };
 
+	    $scope.randomizePersons = function() {
+		    initPersons();
+	    };
     });
 
-    app.directive("manufacturer", function() {
+    app.directive("lastname", function() {
         return {
             restrict: "A",
-            template: "<div><strong>{{ phone.model.manufacturer }}</strong></div>"
+            template: "<div><strong>{{ person.lastName }}</strong></div>"
         };
     });
 
-    app.directive("model", function() {
+	app.directive("lastnameHeader", function() {
+		return {
+			restrict: "A",
+			template: "<div>Last name</div>"
+		};
+	});
+
+    app.directive("firstname", function() {
         return {
             restrict: "A",
-            template: "<div>{{ phone.model.model }}</div>"
+            template: "<div>{{ person.firstName}}</div>"
         };
     });
 
-    app.directive("desc", function() {
+	app.directive("firstnameHeader", function() {
+		return {
+			restrict: "A",
+			template: "<div>First name</div>"
+		};
+	});
+
+    app.directive("contactnumber", function() {
         return {
             restrict: "A",
-            template: "<div>{{ phone.model.desc }}</div>"
+            template: "<div>{{ person.contactNumber}}</div>"
         };
     });
 
-    app.directive("ram", function() {
+	app.directive("contactnumberHeader", function() {
+		return {
+			restrict: "A",
+			template: "<div>Contact Number</div>"
+		};
+	});
+
+    app.directive("medicalinfo", function() {
         return {
             restrict: "A",
-            template: "<div>{{ phone.model.ram }}</div>"
+            template: "<div>{{ person.medicalInfo}}</div>"
         };
     });
 
-    app.directive("cpu", function() {
+	app.directive("medicalinfoHeader", function() {
+		return {
+			restrict: "A",
+			template: "<div>Medical Info</div>"
+		};
+	});
+
+    app.directive("datecolumn", function() {
         return {
             restrict: "A",
-            template: "<div>{{ phone.model.cpu }}</div>"
+	        scope: {},
+            template: "<div ng-show='show'>{{attending}}</div>",
+	        link: function(scope, element, attrs) {
+		        var key = attrs.colId.substr(4, attrs.colId.length),
+			        person = scope.$parent.person,
+			        attending = person[key];
+
+		        scope.date = key;
+		        scope.attending = attending;
+		        scope.show = key && attending;
+	        }
         };
     });
 
-    app.directive("year", function() {
-        return {
-            restrict: "A",
-            template: "<div>{{ phone.model.year }}</div>"
-        };
-    });
+	app.directive("datecolumnHeader", function() {
+		return {
+			restrict: "A",
+			scope: {},
+			template: "<div>{{date | date: 'dd.MM.yyyy'}}</div>",
+			link: function(scope, element, attrs) {
+				scope.date = attrs.colId.substr(4, attrs.colId.length);
+			}
+		};
+	});
 
-    app.directive("lte", function() {
-        return {
-            restrict: "A",
-            template: "<div><input type='checkbox' ng-disabled='true' ng-model='phone.model.lte' /></div>"
-        };
-    });
-
-    app.directive("resolution", function() {
-        return {
-            restrict: "A",
-            template: "<div>{{ phone.model.resolution }}</div>"
-        };
-    });
-
-
-    app.directive("manufacturerHeader", function() {
-        return {
-            restrict: "A",
-            template: "<div>Manufacturer</strong></div>"
-        };
-    });
-
-    app.directive("modelHeader", function() {
-        return {
-            restrict: "A",
-            template: "<div>Model</div>"
-        };
-    });
-
-    app.directive("descHeader", function() {
-        return {
-            restrict: "A",
-            template: "<div>Description</div>"
-        };
-    });
-
-    app.directive("ramHeader", function() {
-        return {
-            restrict: "A",
-            template: "<div>RAM</div>"
-        };
-    });
-
-    app.directive("cpuHeader", function() {
-        return {
-            restrict: "A",
-            template: "<div>CPU</div>"
-        };
-    });
-
-    app.directive("yearHeader", function() {
-        return {
-            restrict: "A",
-            template: "<div>Year</div>"
-        };
-    });
-
-    app.directive("lteHeader", function() {
-        return {
-            restrict: "A",
-            template: "<div>LTE</div>"
-        };
-    });
-
-    app.directive("resolutionHeader", function() {
-        return {
-            restrict: "A",
-            template: "<div>Resolution</div>"
-        };
-    });
 
 })();

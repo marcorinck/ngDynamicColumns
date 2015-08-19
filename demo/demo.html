@@ -2,53 +2,19 @@
 <html>
 <head>
 	<title>ngDynamicColumns Demo</title>
-	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.2/angular.min.js"></script>
-	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.2/angular-animate.min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.28/angular.min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.28/angular-animate.min.js"></script>
 	<link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet">
 
 	<script src="../src/ngDynamicColumns.js"></script>
 	<script src="../src/ColumnHeaderDirective.js"></script>
 	<script src="../src/DynamicColumnService.js"></script>
 	<script src="../src/DynamicRowDirective.js"></script>
+	<script src="../src/PersonsService.js"></script>
 
 	<script src="demo.js"></script>
 </head>
 <body ng-app="demo">
-
-<style>
-	.manufacturerClass {
-		width: 12%;
-	}
-
-	.modelClass {
-		width: 12%;
-	}
-
-	.descClass {
-		width: 12%;
-	}
-
-	.ramClass {
-		width: 12%;
-	}
-
-	.cpuClass {
-		width: 12%;
-	}
-
-	.yearClass {
-		width: 12%;
-	}
-
-	.lteClass {
-		width: 12%;
-	}
-
-	.resolutionClass {
-		width: 12%;
-	}
-
-</style>
 
 <div ng-controller="demoCtrl">
 	<div class="text-center container"><h1>ngDynamicColumns Demo site</h1></div>
@@ -61,16 +27,30 @@
 					<tr column-header="columns"></tr>
 					</thead>
 					<tbody class="ui-datatable-data ui-widget-content">
-					<tr ng-repeat="phone in phones track by phone.id" dynamic-row="columns"></tr>
+					<tr ng-repeat="person in persons track by person.id" dynamic-row="columns"></tr>
 					</tbody>
 				</table>
 			</div>
 		</div>
+
+		<div class="well row">
+			<div class="col-xs-3">
+				<button class="btn btn-primary" ng-click="randomizePersons()">Randomize Persons</button>
+
+			</div>
+			<div class="col-xs-9">
+				<h1>raw persons</h1>
+				<div ng-repeat="person in persons">
+					{{person}}
+				</div>
+			</div>
+		</div>
+
 		<div class="well row">
 			<div class="col-xs-4">
 				<div ng-repeat="column in columns">
 					ID: <span ng-bind="column.id"></span> visible: <input type="checkbox" ng-model="column.visible"
-																		  ng-change="columnChanged(column)">
+					                                                      ng-change="columnChanged(column)">
 				</div>
 			</div>
 
@@ -93,6 +73,7 @@
 				is very fast even in complex tables.</p>
 			</div>
 		</div>
+
 	</div>
 </div>
 

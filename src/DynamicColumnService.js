@@ -39,6 +39,10 @@
 					options.clazz = options.clazz + " ng-hide";
 				}
 
+				if (column.scope) {
+
+				}
+
 				element.append($compile(createElement(elementName, options))(scope));
 			});
 		}
