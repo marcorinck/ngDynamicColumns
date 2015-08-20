@@ -3,12 +3,34 @@
 
 	angular.module("ngDynamicColumns").factory("dynamicColumnService", ['$compile', function ($compile) {
 
+		function createScopedAttrs(options) {
+			var key, attrString = "";
+
+			if (options.scopedAttrs) {
+				for (key in options.scopedAttrs) {
+					if (options.scopedAttrs.hasOwnProperty(key)) {
+						attrString = attrString+ ' ' + key + '="' + options.scopedAttrs[key] + '"';
+					}
+				}
+			}
+
+			return attrString;
+		}
+
 		function getTh(options) {
-			return '<table><tr><th data-col-id="' + options.id + '"' + options.directive + ' class="' + options.clazz + '"></th></tr></table>';
+			var elemenString = '<table><tr><th data-col-id="' + options.id + '"' + options.directive + ' class="' + options.clazz + '"';
+
+			elemenString = elemenString + createScopedAttrs(options) + '></th></tr></table>';
+
+			return elemenString;
 		}
 
 		function getTd(options) {
-			return '<table><tr><td data-col-id="' + options.id + '"' + options.directive + ' class="' + options.clazz + '"></td></tr></table>';
+			var elementString = '<table><tr><td data-col-id="' + options.id + '"' + options.directive + ' class="' + options.clazz + '"';
+
+			elementString = elementString + createScopedAttrs(options) + '></td></tr></table>';
+
+			return elementString;
 		}
 
 		function createElement(elementName, options) {
@@ -37,6 +59,10 @@
 
 				if (!column.visible) {
 					options.clazz = options.clazz + " ng-hide";
+				}
+
+				if (column.scopedAttrs && angular.isObject(column.scopedAttrs)) {
+					options.scopedAttrs = column.scopedAttrs;
 				}
 
 				element.append($compile(createElement(elementName, options))(scope));

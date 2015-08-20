@@ -86,13 +86,19 @@ which need to have these mandatory properties:
   If set, this class will be set on every element in your column (&lt;td&gt; __and__ &lt;th&gt; tags), so you can style
   your columns individually.
 
+>{Object} scopedAttrs (optional)
+
+  If set, they key/value of the given object will be rendered as attributes on the element. This can be used in conjunction
+  with directives which need an isolated scope and therefore cannot access their parent scope. You must reference the
+  attributes in your directive, so angularJS will inject them. Look into the demo application for an example ('isoolated 
+  scope' column)
 
 Example column configuration:
 
 ````javascript
 $scope.columns = [
     {"id": "column1", rowDirective: "column1cell", columnDirective: 'column1header', visible: true, clazz: 'column1class'},
-    {"id": "column2", rowDirective: "column2cell", columnDirective: 'column2header', visible: false, clazz: 'column2class'},
+    {"id": "column2", rowDirective: "column2cell", columnDirective: 'column2header', visible: false, clazz: 'column2class', scopedAttrs: {'my-attr': 'myObject'}},
 ];
 
 ````
@@ -107,8 +113,13 @@ $scope.columns = [
   to only give access to some to-be-defined properties, which would complicate usage quite a lot.
 
   Therefore, ngDynamicColumns is using its parent scope (=your application controller), so you can access your
-  controller properties and methods in your column templates (aka directives). To make use of that, your directive
-  __must not__ set the scope property, so they don't create new scopes for themselves!
+  controller properties and methods in your column templates (aka directives). 
+  
+  If you don't use isolated scope in your own directives you can directly access the controller scope in which you 
+  rendering the table. This is the quick and easy way to write your column directives.  
+  If you need isolated scope in your directives however, you have to use the 'scopedAttrs'
+  configuration in your column configuration, to make use of normal angularJS databinding features (one-way, two-way, 
+  function calls). Please have a look into the demo application to see a working example. 
 
   To minimize its footprint and avoid conflicts, this module is adding no properties whatsoever on the scope.
 
