@@ -1,0 +1,14 @@
+Index: gruntfile.js
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- gruntfile.js	(revision fa7cbee2269a25006090b4a6f6f8c69a31d5bbb6)
++++ gruntfile.js	(revision )
+@@ -1,4 +1,4 @@
+-/* global module: true, require: true */
++/* global module: true, require: true3 */
+ module.exports = function (grunt) {
+ 	"use strict";
+ 
+\ No newline at end of file

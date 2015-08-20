@@ -13,7 +13,8 @@
             {"id": "cpu", rowDirective: "cpu", columnDirective: 'cpu-header', visible: false, clazz: 'cpuClass'},
             {"id": "year", rowDirective: "year", columnDirective: 'year-header', visible: true, clazz: 'yearClass'},
             {"id": "lte", rowDirective: "lte", columnDirective: 'lte-header', visible: true, clazz: 'lteClass'},
-            {"id": "resolution", rowDirective: "resolution", columnDirective: 'resolution-header', visible: false, clazz: 'resolutionClass'}
+            {"id": "resolution", rowDirective: "resolution", columnDirective: 'resolution-header', visible: false, clazz: 'resolutionClass'},
+	        {"id": "scope", rowDirective: "isolatedscope", columnDirective: 'isolatedscope-header', visible: false, clazz: 'isolatedscopeClass', scopedAttrs: {'my-scoped-attr': 'controllerObject', 'my-phone': 'phone'}}
 
         ];
 
@@ -23,7 +24,7 @@
             {id: 3, model: { manufacturer: "Samsung", model: "Galaxy S4", desc: "The top android stuff only here", ram: "2 GB", cpu: "ARM 123", year: "2013", lte: true, resolution: "zzz" }},
             {id: 4, model: { manufacturer: "Google", model: "Nexus 5", desc: "Its shiny!", ram: "2 GB", cpu: "has one", year: "2013", lte: true, resolution: "aaaa" }},
             {id: 5, model: { manufacturer: "Nokia", model: "Lumia", desc: "tiles everywhere", ram: "1 GB", cpu: "yes", year: "2012", lte: false, resolution: "big!" }},
-            {id: 6, model: { manufacturer: "HTC", model: "", desc: "", ram: "", cpu: "", year: "", lte: true, resolution: "" }},
+            {id: 6, model: { manufacturer: "HTC", model: "", desc: "", ram: "", cpu: "", year: "", lte: true, resolution: ""}},
             {id: 7, model: { manufacturer: "Apple", model: "iPhone 4", desc: "its too old!", ram: "512 MB", cpu: "A5", year: "2010", lte: false, resolution: "yep" }}
         ];
 
@@ -42,6 +43,8 @@
 
             $rootScope.$emit("recreateColumns");
         };
+
+	    $scope.controllerObject = {akey: "This string comes from a object in controller $scope."};
 
     });
 
@@ -158,4 +161,22 @@
         };
     });
 
+	app.directive("isolatedscope", function() {
+		return {
+			restrict: "A",
+			scope: {
+				myScopedAttr: '=',
+				myPhone: '='
+			},
+			template: "<div>The CPU {{myPhone.model.cpu }} is injected as isolated scope variable.<br />{{myScopedAttr.akey}}</div>"
+		};
+	});
+
+
+	app.directive("isolatedscopeHeader", function() {
+		return {
+			restrict: "A",
+			template: "<div>Isolated Scope</div>"
+		};
+	});
 })();
