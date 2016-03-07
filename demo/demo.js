@@ -4,7 +4,8 @@
     var app = angular.module("demo", ["ngDynamicColumns"]);
 
     app.controller("demoCtrl", function demoCtrl($scope, $rootScope, personService) {
-        var dateColumn = {"id": "date", rowDirective: "datecolumn", columnDirective: 'datecolumn-header', visible: true}, uniqueDates = [],
+        var dateColumn = {"id": "date", rowDirective: "datecolumn", columnDirective: 'datecolumn-header', visible: true, scopedAttrs: {'person': 'person'}},
+	        uniqueDates = [],
 	        personalKeys = ['id', 'lastName', 'firstName', 'medicalInfo', 'contactNumber'],
 	        columns = [
 	            {"id": "lastName", rowDirective: "lastname", columnDirective: 'lastname-header', visible: true},
@@ -146,11 +147,13 @@
     app.directive("datecolumn", function() {
         return {
             restrict: "A",
-	        scope: {},
+	        scope: {
+		        person: "="
+	        },
             template: "<div ng-show='show'>{{attending}}</div>",
 	        link: function(scope, element, attrs) {
 		        var key = attrs.colId.substr(4, attrs.colId.length),
-			        person = scope.$parent.person,
+			        person = scope.person,
 			        attending = person[key];
 
 		        scope.date = key;
