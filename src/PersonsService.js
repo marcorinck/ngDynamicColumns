@@ -40,11 +40,27 @@
 
 		}
 
+		function getAttendingPersonCountForColumn(_persons, column) {
+			var attending = 0, colId = column.substr(4, column.length); //cut out 'date' string, e.g. "date1440425379335"
+
+			if (_persons && _persons.length) {
+				_persons.forEach(function (person) {
+					if (person[colId] === 'Attending') {
+						++attending;
+					}
+
+				});
+			}
+
+			return attending;
+		}
+
 		return {
 			randomize: randomize,
 			get persons() {
 				return persons;
-			}
+			},
+			getAttendingPersonCountForColumn:getAttendingPersonCountForColumn
 		};
 	}]);
 
