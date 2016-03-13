@@ -4,7 +4,7 @@
     var app = angular.module("demo", ["ngDynamicColumns"]);
 
     app.controller("demoCtrl", function demoCtrl($scope, $rootScope, personService) {
-        var dateColumn = {"id": "date", rowDirective: "datecolumn", columnDirective: 'datecolumn-header', visible: true, scopedAttrs: {'person': 'person', 'persons': 'persons'}},
+        var dateColumn = {"id": "date", rowDirective: "datecolumn", columnDirective: 'datecolumn-header', visible: true, scopedAttrs: {'person': 'person', 'persons': 'persons', 'dropped': 'dropped'}},
 	        uniqueDates = [],
 	        personalKeys = ['id', 'lastName', 'firstName', 'medicalInfo', 'contactNumber'],
 	        columns = [
@@ -98,7 +98,7 @@
 	app.directive("lastnameHeader", function() {
 		return {
 			restrict: "A",
-			template: "<div>Last name</div>"
+			template: "<div drop-target on-drop='dropped(source, dest)'><div draggable='lastname'>DragMe</div>Last name</div>"
 		};
 	});
 
@@ -112,7 +112,7 @@
 	app.directive("firstnameHeader", function() {
 		return {
 			restrict: "A",
-			template: "<div>First name</div>"
+			template: "<div drop-target on-drop='dropped(source, dest)'><div draggable='firstname'>DragMe</div>First name</div>"
 		};
 	});
 
@@ -126,7 +126,7 @@
 	app.directive("contactnumberHeader", function() {
 		return {
 			restrict: "A",
-			template: "<div>Contact Number</div>"
+			template: "<div drop-target on-drop='dropped(source, dest)'><div draggable='contactnumber'>DragMe</div>Contact Number</div>"
 		};
 	});
 
@@ -140,7 +140,7 @@
 	app.directive("medicalinfoHeader", function() {
 		return {
 			restrict: "A",
-			template: "<div>Medical Info</div>"
+			template: "<div drop-target on-drop='dropped(source, dest)'><div draggable='medicalinfo'>DragMe</div>Medical Info</div>"
 		};
 	});
 
@@ -164,15 +164,14 @@
     });
 
 	app.directive("datecolumnHeader", function(personService) {
+		//no isolated scope as columnHeader onDrop method will not be available then
 		return {
 			restrict: "A",
-			scope: {
-				persons: '='
-			},
-			template: "<div>{{date | date: 'dd.MM.yyyy'}} ({{attendingPersons}})</div>",
+			template: "<div drop-target on-drop='dropped(source, dest)'><div draggable='{{colId}}'>DragMe</div>{{date | date: 'dd.MM.yyyy'}} ({{attendingPersons}})</div>",
 			link: function(scope, element, attrs) {
 				scope.date = attrs.colId.substr(4, attrs.colId.length);
-				scope.attendingPersons = personService.getAttendingPersonCountForColumn(scope.persons, attrs.colId);
+				scope.colId = attrs.colId;
+				scope.attendingPersons = personService.getAttendingPersonCountForColumn(scope.$parent.persons, attrs.colId);
 			}
 		};
 	});

@@ -99,7 +99,7 @@
 		function changeColumnOrder($element, source, dest) {
 			var forward = false, temp, children = $element.children(),
 				sourceElement, destElement, sourceIndex, destIndex;
-
+			console.log("changeorder", $element, source, dest);
 			Object.keys(children).some(function (key, index) {
 				var columnId = children[key].attributes["data-col-id"].value;
 
@@ -123,8 +123,10 @@
 
 			if (sourceElement && destElement) {
 				if (forward) {
-					temp = destElement.after(sourceElement);
-					sourceElement.after(temp);
+					//TODO moving forward only with dom api methods doesn't work (aka without jquery)
+					//temp = destElement.after(sourceElement);
+					//sourceElement.after(temp);
+					destElement.before(sourceElement);
 
 				} else {
 					destElement.after(sourceElement);
