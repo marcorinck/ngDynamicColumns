@@ -167,6 +167,9 @@
 		//no isolated scope as columnHeader onDrop method will not be available then
 		return {
 			restrict: "A",
+			scope: {
+				persons: "="
+			},
 			template: "<div drop-target on-drop='dropped(source, dest)'><div draggable='{{colId}}'>DragMe</div>{{date | date: 'dd.MM.yyyy'}} ({{attendingPersons}})</div>",
 			link: function(scope, element, attrs) {
 				scope.date = attrs.colId.substr(4, attrs.colId.length);
