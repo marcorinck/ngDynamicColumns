@@ -97,17 +97,16 @@
 		}
 
 		function changeColumnOrder($element, source, dest) {
-			var forward = false, temp, children = $element.children(),
+			var forward = false, children = $element.children(),
 				sourceElement, destElement, sourceIndex, destIndex;
-			console.log("changeorder", $element, source, dest);
-			Object.keys(children).some(function (key, index) {
-				var columnId = children[key].attributes["data-col-id"].value;
+			children.each(function (index, child) {
+				var columnId = child.attributes["data-col-id"].value;
 
 				if (columnId === source) {
-					sourceElement = angular.element(children[key]);
+					sourceElement = $(child);
 					sourceIndex = index;
 				} else if (columnId === dest) {
-					destElement = angular.element(children[key]);
+					destElement = $(child);
 					destIndex = index;
 
 					if (!sourceElement) {
@@ -116,7 +115,7 @@
 				}
 
 				if (sourceElement && destElement) {
-					return true;
+					return false;
 				}
 			});
 

@@ -1,7 +1,7 @@
 (function (angular) {
 	"use strict";
 
-	angular.module("ngDynamicColumns").directive("draggable", ['$rootScope', function ($rootScope) {
+	angular.module("ngDynamicColumns").directive("draggableHeader", ['$rootScope', function ($rootScope) {
 
 		return {
 			restrict: 'A',
@@ -9,7 +9,8 @@
 				draggable: "@"
 			},
 			link: function ($scope, $element) {
-				$element.attr("draggable", "true");
+				console.log($element);
+				$element.attr("draggable", true).prop('draggable', true);
 
 				$element.on("dragstart", function (event) {
 					$rootScope.draggable = $element.parents('th').attr("data-col-id");

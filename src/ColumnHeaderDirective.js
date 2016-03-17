@@ -13,6 +13,7 @@
 			controller: function($scope, $element) {
 				$scope.dropped = function(source, dest) {
 					var result;
+					$rootScope.$emit("columnOrderChanged", source, dest);
 					result = dynamicColumnService.changeColumnOrder($element, source, dest);
 					$scope.$apply(function() {
 						arraymove($scope.columns, result.sourceIndex, result.destIndex);
@@ -30,17 +31,6 @@
 
 				dynamicColumnService.renderColumn(scope, element, scope[attrs.columnHeader]);
 
-				$rootScope.$on("columnToggled", function (event, columnId) {
-					dynamicColumnService.toggleColumn(element, columnId);
-				});
-
-				$rootScope.$on("recreateColumns", function () {
-					dynamicColumnService.renderColumn(scope, element, scope[attrs.columnHeader]);
-				});
-
-				$rootScope.$on("columnOrderChanged", function (event, sourceId, destinationId) {
-					dynamicColumnService.changeColumnOrder(element, sourceId, destinationId);
-				});
 			}
 		};
 	}]);
