@@ -171,7 +171,7 @@
 			link: function(scope, element, attrs) {
 				scope.date = attrs.colId.substr(4, attrs.colId.length);
 				scope.colId = attrs.colId;
-				scope.attendingPersons = personService.getAttendingPersonCountForColumn(scope.$parent.persons, attrs.colId);
+				scope.attendingPersons = personService.getAttendingPersonCountForColumn(scope.persons, attrs.colId);
 			}
 		};
 	});
