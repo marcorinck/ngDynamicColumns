@@ -163,18 +163,23 @@
         };
     });
 
-	app.directive("datecolumnHeader", function(personService) {
-		//no isolated scope as columnHeader onDrop method will not be available then
+	app.directive("datecolumnHeader", function(personService, $rootScope) {
+		//use isolated scope as this column is used more than once and scope variables need to be unique for each instance
 		return {
 			restrict: "A",
 			scope: {
 				persons: "="
 			},
-			template: "<div drop-target on-drop='dropped(source, dest)'><div draggable-header='{{colId}}'>DragMe</div>{{date | date: 'dd.MM.yyyy'}} ({{attendingPersons}})</div>",
+			template: "<div drop-target on-drop='datecolumnDropped(source, dest)'><div draggable-header='{{colId}}'>DragMe</div>{{date | date: 'dd.MM.yyyy'}} ({{attendingPersons}})</div>",
 			link: function(scope, element, attrs) {
 				scope.date = attrs.colId.substr(4, attrs.colId.length);
 				scope.colId = attrs.colId;
 				scope.attendingPersons = personService.getAttendingPersonCountForColumn(scope.persons, attrs.colId);
+
+				scope.datecolumnDropped = function (source, dest) {
+					//using angular event for "calling" onDrop method on ColumnHeaderDirective because of isolated scope
+					$rootScope.$emit('columnDropped', source, dest);
+				};
 			}
 		};
 	});

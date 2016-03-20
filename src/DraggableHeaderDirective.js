@@ -9,7 +9,6 @@
 				draggable: "@"
 			},
 			link: function ($scope, $element) {
-				console.log($element);
 				$element.attr("draggable", true).prop('draggable', true);
 
 				$element.on("dragstart", function (event) {

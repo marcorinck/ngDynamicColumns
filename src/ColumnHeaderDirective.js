@@ -1,23 +1,23 @@
 (function (angular) {
 	"use strict";
 
+	var ignoreNextColumnOrderChangeEvent = false;
+
 	angular.module("ngDynamicColumns").directive("columnHeader", ['$rootScope', 'dynamicColumnService', function ($rootScope, dynamicColumnService) {
-		function arraymove(array, fromIndex, toIndex) {
-			var element = array[fromIndex];
-			array.splice(fromIndex, 1);
-			array.splice(toIndex, 0, element);
-		}
 
 		return {
 			restrict: 'A',
 			controller: function($scope, $element) {
 				$scope.dropped = function(source, dest) {
 					var result;
-					$rootScope.$emit("columnOrderChanged", source, dest);
-					result = dynamicColumnService.changeColumnOrder($element, source, dest);
-					$scope.$apply(function() {
-						arraymove($scope.columns, result.sourceIndex, result.destIndex);
+
+					$scope.$apply(function () {
+						ignoreNextColumnOrderChangeEvent = true;
+						$rootScope.$emit("columnOrderChanged", source, dest);
+
+						result = dynamicColumnService.changeColumnOrder($element, source, dest);
 					});
+
 				};
 			},
 			link: function (scope, element, attrs) {
@@ -30,6 +30,26 @@
 				}
 
 				dynamicColumnService.renderColumn(scope, element, scope[attrs.columnHeader]);
+
+				$rootScope.$on('columnDropped', function (event, source, dest) {
+					scope.dropped(source, dest);
+				});
+
+				$rootScope.$on("columnToggled", function (event, columnId) {
+					dynamicColumnService.toggleColumn(element, columnId);
+				});
+
+				$rootScope.$on("recreateColumns", function () {
+					dynamicColumnService.renderColumn(scope, element, scope[attrs.columnHeader]);
+				});
+
+				$rootScope.$on("columnOrderChanged", function (event, sourceId, destinationId) {
+					if (!ignoreNextColumnOrderChangeEvent) {
+						dynamicColumnService.changeColumnOrder(element, sourceId, destinationId);
+					} else {
+						ignoreNextColumnOrderChangeEvent = false;
+					}
+				});
 
 			}
 		};
