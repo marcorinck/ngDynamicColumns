@@ -34,7 +34,7 @@
 					return false;
 				});
 
-				$element.parents('th').on("dragenter", function (event) {
+				$element.parents('th').find('*').on("dragenter", function (event) {
 					var currentHeader, sourceColumn = $rootScope.draggable;
 
 					event.originalEvent.dataTransfer.dropEffect = "move";
@@ -59,7 +59,6 @@
 
 				$element.parents('th').on("dragleave", function (e) {
 					//console.log("dragleave", this);
-					//$(this).removeClass('drag-over');
 				});
 
 				$element.parents('th').on("drop", function (event) {
