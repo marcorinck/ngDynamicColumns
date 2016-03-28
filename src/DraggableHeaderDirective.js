@@ -5,17 +5,17 @@
 
 		return {
 			restrict: 'A',
-			scope: {
-				draggable: "@"
-			},
 			link: function ($scope, $element) {
-				$element.attr("draggable", true).prop('draggable', true);
+				var header = $element.parents('th');
+				// var header = $element;
 
-				$element.on("dragstart", function (event) {
-					$rootScope.draggable = $element.parents('th').attr("data-col-id");
+				header.attr("draggable", true).prop('draggable', true);
+
+				header.on("dragstart", function () {
+					$rootScope.draggable = header.attr("data-col-id");
 				});
 
-				$element.on("dragend", function () {
+				header.on("dragend", function () {
 					$rootScope.draggable = undefined;
 					$('th.drag-over').removeClass('drag-over');
 				});

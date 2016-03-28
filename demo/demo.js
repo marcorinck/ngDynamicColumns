@@ -98,7 +98,7 @@
 	app.directive("lastnameHeader", function() {
 		return {
 			restrict: "A",
-			template: "<div drop-target on-drop='dropped(source, dest)'><div draggable-header='lastname'>DragMe</div>Last name</div>"
+			template: "<div drop-target on-drop='dropped(source, dest)' draggable-header='lastname'>Last name</div>"
 		};
 	});
 
@@ -112,7 +112,7 @@
 	app.directive("firstnameHeader", function() {
 		return {
 			restrict: "A",
-			template: "<div drop-target on-drop='dropped(source, dest)'><div draggable-header='firstname'>DragMe</div>First name</div>"
+			template: "<div drop-target on-drop='dropped(source, dest)' draggable-header='firstname'>First name</div>"
 		};
 	});
 
@@ -126,7 +126,7 @@
 	app.directive("contactnumberHeader", function() {
 		return {
 			restrict: "A",
-			template: "<div drop-target on-drop='dropped(source, dest)'><div draggable-header='contactnumber'>DragMe</div>Contact Number</div>"
+			template: "<div drop-target on-drop='dropped(source, dest)' draggable-header='contactnumber'>Contact Number</div>"
 		};
 	});
 
@@ -140,7 +140,7 @@
 	app.directive("medicalinfoHeader", function() {
 		return {
 			restrict: "A",
-			template: "<div drop-target on-drop='dropped(source, dest)'><div draggable-header='medicalinfo'>DragMe</div>Medical Info</div>"
+			template: "<div drop-target on-drop='dropped(source, dest)' draggable-header='medicalinfo'>Medical Info</div>"
 		};
 	});
 
@@ -170,7 +170,7 @@
 			scope: {
 				persons: "="
 			},
-			template: "<div drop-target on-drop='datecolumnDropped(source, dest)'><div draggable-header='{{colId}}'>DragMe</div>{{date | date: 'dd.MM.yyyy'}} ({{attendingPersons}})</div>",
+			template: "<div drop-target on-drop='datecolumnDropped(source, dest)' draggable-header='{{colId}}'>{{date | date: 'dd.MM.yyyy'}} ({{attendingPersons}})</div>",
 			link: function(scope, element, attrs) {
 				scope.date = attrs.colId.substr(4, attrs.colId.length);
 				scope.colId = attrs.colId;
