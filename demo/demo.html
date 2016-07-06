@@ -24,61 +24,48 @@
 <div ng-controller="demoCtrl">
 	<div class="container">
 		<div class="row">
-			<div class="jumbotron">
-				<h1>ngDynamicColumns demo application</h1>
 
-				<p>This is a demo page for my <a href="https://github.com/marcorinck/ngDynamicColumns">ngDynamicColumns</a>
-					library which aims to render dynamic HTML tables in an
-					<a href="https://angularjs.org/">angularJS</a> application very fast even with complex templates
-					and a dynamic number of columns.</p>
-
-				<p>The normal way of doing this with angularJS via ng-repeat tends to get very slow if you have lots of
-					rows and lots of ng-bindings inside the table cells. </p>
-
-				<p>This demo is based on a lift of requirement of a user of this library. He approached me if I could enhance
-					ngDynamicColumns in some way but it turned out that it was (almost) possible to do it without changing
-					anything in the library itself.</p>
-
-				<a class="btn btn-primary btn-lg" data-toggle="modal" href="#feature-list">
-					Information about ngDynamicColumns
-				</a>
-
-				<a class="btn btn-primary btn-lg" data-toggle="modal" href="#requirement-list">
-					Requirements list of this demo page
-				</a>
-			</div>
 		</div>
 
 		<div class="row">
 			<div class="col-xs-12">
+				<div class="jumbotron">
+					<h1>ngDynamicColumns demo <a href="https://github.com/marcorinck/ngDynamicColumns" class="btn btn-info btn-sm">GitHub Repository</a></h1>
+				</div>
 
-				<div class="panel panel-default panel-table">
+				<div class="pull-right">
+					<button class="btn btn-default btn-sm" ng-click="randomizePersons()"><i
+							class="glyphicon glyphicon-repeat"></i> Randomize Persons
+					</button>
+					<button class="btn btn-default btn-sm" ng-click="shuffleColumns()" data-toggle="tooltip"
+					        title="This destroys and rerenders all rows and cells in the table, which can take a long time when there are many DOM elements.">
+						<i class="glyphicon glyphicon-random"></i> Shuffle column order
+					</button>
+					<button class="btn btn-default btn-sm" ng-click="moveFirstColumnToLast()" data-toggle="tooltip"
+					        title="This only moves existing DOM elements, so its be very fast even in complex tables.">
+						<i class="glyphicon glyphicon-circle-arrow-right"></i> Move first Column to last column
+					</button>
+
+					<span class="dropdown">
+						<button class="btn btn-default btn-sm" data-toggle="dropdown"><i
+								class="glyphicon glyphicon-th-list"></i> Visible Columns <span class="caret"></span></button>
+						<ul class="list-group dropdown-menu">
+							<li class="list-group-item" ng-repeat="column in columns">
+								<label>
+									<input type="checkbox" ng-model="column.visible"
+									       ng-change="columnChanged(column)">
+									<span ng-bind="column.name"></span>
+								</label>
+							</li>
+
+						</ul>
+					</span>
+				</div>
+
+				<div class="panel panel-default panel-table" style="margin-top: 70px;">
 					<div class="panel-heading">
 						<h4 class="panel-title">
 							Persons
-							<div class="pull-right">
-								<button class="btn btn-default btn-sm" ng-click="randomizePersons()"><i class="glyphicon glyphicon-repeat"></i> Randomize Persons</button>
-								<button class="btn btn-default btn-sm" ng-click="shuffleColumns()" data-toggle="tooltip"
-										title="This destroys and rerenders all rows and cells in the table, which can take a long time when there are many DOM elements.">
-									<i class="glyphicon glyphicon-random"></i> Shuffle column order
-								</button>
-								<button class="btn btn-default btn-sm" ng-click="moveFirstColumnToLast()" data-toggle="tooltip"
-										title="This only moves existing DOM elements, so its be very fast even in complex tables.">
-									<i class="glyphicon glyphicon-circle-arrow-right"></i> Move first Column to last column
-								</button>
-								<span class="dropdown">
-									<button class="btn btn-default btn-sm" data-toggle="dropdown"><i class="glyphicon glyphicon-th-list"></i> Visible Columns</button>
-									<ul class="list-group dropdown-menu">
-										<li class="list-group-item" ng-repeat="column in columns">
-											<label>
-												<input type="checkbox" ng-model="column.visible" ng-change="columnChanged(column)">
-												<span ng-bind="column.name"></span>
-											</label>
-										</li>
-
-									</ul>
-								</span>
-							</div>
 						</h4>
 					</div>
 					<div class="panel-body">
@@ -88,7 +75,8 @@
 								<tr column-header="columns"></tr>
 								</thead>
 								<tbody class="ui-datatable-data ui-widget-content">
-								<tr ng-repeat="person in persons  | filter:isVisible track by person.id" dynamic-row="columns"></tr>
+								<tr ng-repeat="person in persons  | filter:isVisible track by person.id"
+								    dynamic-row="columns"></tr>
 								</tbody>
 							</table>
 						</div>
@@ -101,10 +89,31 @@
 			<div class="modal-dialog">
 				<div class="modal-content">
 					<div class="modal-header">
-						<h4 class="modal-title">Feature List</h4>
+						<h4 class="modal-title">ngDynamicColumns demo application</h4>
 					</div>
 					<div class="modal-body">
-						Features
+						<p>This is a demo page for my <a
+								href="https://github.com/marcorinck/ngDynamicColumns">ngDynamicColumns</a>
+							library which aims to render dynamic HTML tables in an
+							<a href="https://angularjs.org/">angularJS</a> application very fast even with complex templates
+							and a dynamic number of columns.</p>
+
+						<p>The normal way of doing this with angularJS via ng-repeat tends to get very slow if you have lots of
+							rows and lots of ng-bindings inside the table cells. </p>
+
+						<p>This demo is based on a lift of requirement of a user of this library. He approached me if I could
+							enhance
+							ngDynamicColumns in some way but it turned out that it was (almost) possible to do it without
+							changing
+							anything in the library itself.</p>
+
+						<a class="btn btn-primary btn-lg" data-toggle="modal" href="#feature-list">
+							Information about ngDynamicColumns
+						</a>
+
+						<a class="btn btn-primary btn-lg" data-toggle="modal" href="#requirement-list">
+							Requirements list of this demo page
+						</a>
 					</div>
 					<div class="modal-footer">
 						<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -123,14 +132,23 @@
 					<div class="modal-body">
 						<ul>
 							<li>render a HTML table of persons</li>
-							<li>each person has static attributes, each attribute should be rendered in a separate column</li>
-							<li>each person has a dynamic number of additional attributes, which are attending dates of a
-								number of meetings. The number of attended meetings and even the meetings itself should be fully
-								dynamic and not hard-coded</li>
-							<li>each attending date that exists in any one person should be rendered in a separate column and it
-								should be visible if each person has attended to that meeting</li>
-							<li>each column header should render its name and the columns for the attending dates should render the
-								number of persons who attended</li>
+							<li>each person has static attributes, each attribute should be rendered in a separate
+								column
+							</li>
+							<li>each person has a dynamic number of additional attributes, which are attending dates of
+								a
+								number of meetings. The number of attended meetings and even the meetings itself should
+								be fully
+								dynamic and not hard-coded
+							</li>
+							<li>each attending date that exists in any one person should be rendered in a separate
+								column and it
+								should be visible if each person has attended to that meeting
+							</li>
+							<li>each column header should render its name and the columns for the attending dates should
+								render the
+								number of persons who attended
+							</li>
 							<li>The column order can be changed by the user via drag & drop</li>
 						</ul>
 					</div>
@@ -146,7 +164,8 @@
 
 	<script>
 		$(function () {
-			$('[data-toggle="tooltip"]').tooltip({placement: 'bottom'})
+			$('[data-toggle="tooltip"]').tooltip({placement: 'bottom'});
+			$('#feature-list').modal('show');
 		});
 	</script>
 </div>

@@ -6,18 +6,18 @@
 	border: 2px dashed black !important;
 }
 
-.panel-table .panel-heading {
-	height: 50px;
-}
+/*.panel-table .panel-heading {*/
+	/*height: 50px;*/
+/*}*/
 
-.panel-table .panel-title {
-	margin-top: 5px;
-}
+/*.panel-table .panel-title {*/
+	/*margin-top: 5px;*/
+/*}*/
 
 
-.panel-table .panel-heading .btn {
-	margin-top: -5px;
-}
+/*.panel-table .panel-heading .btn {*/
+	/*margin-top: -5px;*/
+/*}*/
 
 body {
 	background-color: #f2f2f0;

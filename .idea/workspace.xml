@@ -2,10 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="ed4cb0a7-c0d8-4881-932d-ec79aa33881b" name="Default" comment="">
-      <change type="MOVED" beforePath="$PROJECT_DIR$/demo/draggable.css" afterPath="$PROJECT_DIR$/demo/demo.css" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/demo/demo.css" afterPath="$PROJECT_DIR$/demo/demo.css" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/demo/demo.html" afterPath="$PROJECT_DIR$/demo/demo.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/demo/demo.js" afterPath="$PROJECT_DIR$/demo/demo.js" />
     </list>
     <list id="a356bc6d-65cb-4039-aabe-26827f642351" name="Fix: attendingCount is displayed correctly again" comment="" />
     <ignored path="ngDynamicColumns.iws" />
@@ -69,11 +68,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="demo.js" pinned="false" current-in-tab="true">
+      <file leaf-file-name="demo.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/demo/demo.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-1575">
-              <caret line="45" column="0" selection-start-line="45" selection-start-column="0" selection-end-line="45" selection-end-column="0" />
+            <state relative-caret-position="240">
+              <caret line="166" column="44" selection-start-line="166" selection-start-column="44" selection-end-line="166" selection-end-column="44" />
               <folding />
             </state>
           </provider>
@@ -93,7 +92,7 @@
         <entry file="file://$PROJECT_DIR$/demo/demo.css">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="195">
-              <caret line="13" column="20" selection-start-line="13" selection-start-column="20" selection-end-line="13" selection-end-column="20" />
+              <caret line="13" column="19" selection-start-line="13" selection-start-column="19" selection-end-line="13" selection-end-column="19" />
               <folding />
             </state>
           </provider>
@@ -159,12 +158,14 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="demo.html" pinned="false" current-in-tab="false">
+      <file leaf-file-name="demo.html" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/demo/demo.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="235">
-              <caret line="44" column="0" selection-start-line="44" selection-start-column="0" selection-end-line="44" selection-end-column="0" />
-              <folding />
+            <state relative-caret-position="231">
+              <caret line="50" column="116" selection-start-line="50" selection-start-column="116" selection-end-line="50" selection-end-column="116" />
+              <folding>
+                <element signature="n#style#0;n#div#2;n#div#0;n#div#1;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -202,9 +203,9 @@
         <option value="$PROJECT_DIR$/src/DraggableHeaderDirective.js" />
         <option value="$PROJECT_DIR$/demo/draggable.css" />
         <option value="$PROJECT_DIR$/src/DropTargetDirective.js" />
-        <option value="$PROJECT_DIR$/demo/demo.html" />
-        <option value="$PROJECT_DIR$/demo/demo.css" />
         <option value="$PROJECT_DIR$/demo/demo.js" />
+        <option value="$PROJECT_DIR$/demo/demo.css" />
+        <option value="$PROJECT_DIR$/demo/demo.html" />
       </list>
     </option>
   </component>
@@ -574,7 +575,7 @@
       <workItem from="1458489338860" duration="2217000" />
       <workItem from="1459175369043" duration="2180000" />
       <workItem from="1459676636028" duration="1599000" />
-      <workItem from="1467795067500" duration="10356000" />
+      <workItem from="1467795067500" duration="12711000" />
     </task>
     <task id="LOCAL-00001" summary="initial commit">
       <created>1384097540287</created>
@@ -772,11 +773,18 @@
       <option name="project" value="LOCAL" />
       <updated>1459177272832</updated>
     </task>
-    <option name="localTasksCounter" value="29" />
+    <task id="LOCAL-00029" summary="better styling for the demo page so you can better grasp what ngDynamicColumns is about, not finished">
+      <created>1467813025786</created>
+      <option name="number" value="00029" />
+      <option name="presentableId" value="LOCAL-00029" />
+      <option name="project" value="LOCAL" />
+      <updated>1467813025787</updated>
+    </task>
+    <option name="localTasksCounter" value="30" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="37515000" />
+    <option name="totallyTimeSpent" value="39870000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1440" height="797" extended-state="6" />
@@ -839,7 +847,8 @@
     <MESSAGE value="Fix: Update angular model correctly after drag&amp;drop browser event" />
     <MESSAGE value="Feature: make column headers draggable" />
     <MESSAGE value="Fix: dragged header can be dropped on all child elements of hovered header, not only on th element directly" />
-    <option name="LAST_COMMIT_MESSAGE" value="Fix: dragged header can be dropped on all child elements of hovered header, not only on th element directly" />
+    <MESSAGE value="better styling for the demo page so you can better grasp what ngDynamicColumns is about, not finished" />
+    <option name="LAST_COMMIT_MESSAGE" value="better styling for the demo page so you can better grasp what ngDynamicColumns is about, not finished" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
@@ -862,7 +871,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="30" column="24" selection-start-line="30" selection-start-column="24" selection-end-line="30" selection-end-column="24" />
-          <folding />
+          <folding>
+            <element signature="n#style#0;n#div#2;n#div#0;n#div#1;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -963,7 +974,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="29" column="72" selection-start-line="29" selection-start-column="63" selection-end-line="29" selection-end-column="72" />
-          <folding />
+          <folding>
+            <element signature="n#style#0;n#div#2;n#div#0;n#div#1;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -1038,7 +1051,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="13" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="80" selection-end-column="7" />
-          <folding />
+          <folding>
+            <element signature="n#style#0;n#div#2;n#div#0;n#div#1;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -1106,7 +1121,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="13" column="26" selection-start-line="0" selection-start-column="0" selection-end-line="99" selection-end-column="7" />
-          <folding />
+          <folding>
+            <element signature="n#style#0;n#div#2;n#div#0;n#div#1;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -1216,10 +1233,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/demo/demo.html">
+    <entry file="file://$PROJECT_DIR$/demo/demo.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="235">
-          <caret line="44" column="0" selection-start-line="44" selection-start-column="0" selection-end-line="44" selection-end-column="0" />
+        <state relative-caret-position="240">
+          <caret line="166" column="44" selection-start-line="166" selection-start-column="44" selection-end-line="166" selection-end-column="44" />
           <folding />
         </state>
       </provider>
@@ -1227,16 +1244,18 @@
     <entry file="file://$PROJECT_DIR$/demo/demo.css">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="195">
-          <caret line="13" column="20" selection-start-line="13" selection-start-column="20" selection-end-line="13" selection-end-column="20" />
+          <caret line="13" column="19" selection-start-line="13" selection-start-column="19" selection-end-line="13" selection-end-column="19" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/demo/demo.js">
+    <entry file="file://$PROJECT_DIR$/demo/demo.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1575">
-          <caret line="45" column="0" selection-start-line="45" selection-start-column="0" selection-end-line="45" selection-end-column="0" />
-          <folding />
+        <state relative-caret-position="231">
+          <caret line="50" column="116" selection-start-line="50" selection-start-column="116" selection-end-line="50" selection-end-column="116" />
+          <folding>
+            <element signature="n#style#0;n#div#2;n#div#0;n#div#1;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
