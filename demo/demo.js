@@ -3,18 +3,23 @@
 
     var app = angular.module("demo", ["ngDynamicColumns"]);
 
-    app.controller("demoCtrl", function demoCtrl($scope, $rootScope, personService) {
-        var dateColumn = {"id": "date", rowDirective: "datecolumn", columnDirective: 'datecolumn-header', visible: true, scopedAttrs: {'person': 'person', 'persons': 'persons', 'dropped': 'dropped'}},
+    app.controller("demoCtrl", function demoCtrl($scope, $rootScope, $filter, personService) {
+        var dateColumn = {"id": "date", rowDirective: "datecolumn", columnDirective: 'datecolumn-header', visible: true, name: "Date ", scopedAttrs: {'person': 'person', 'persons': 'persons'}},
 	        uniqueDates = [],
 	        personalKeys = ['id', 'lastName', 'firstName', 'medicalInfo', 'contactNumber'],
 	        columns = [
-	            {"id": "lastName", rowDirective: "lastname", columnDirective: 'lastname-header', visible: true},
-	            {"id": "firstName", rowDirective: "firstname", columnDirective: 'firstname-header',visible: true},
-	            {"id": "contactNumber", rowDirective: "contactnumber", columnDirective: 'contactnumber-header',visible: true},
-	            {"id": "medicalInfo", rowDirective: "medicalinfo", columnDirective: 'medicalinfo-header',visible: true}
+	            {"id": "lastName", rowDirective: "lastname", columnDirective: 'lastname-header', visible: true, "name": "Last Name"},
+	            {"id": "firstName", rowDirective: "firstname", columnDirective: 'firstname-header',visible: true, "name": "First Name"},
+	            {"id": "contactNumber", rowDirective: "contactnumber", columnDirective: 'contactnumber-header',visible: true, "name": "Contact Number"},
+	            {"id": "medicalInfo", rowDirective: "medicalinfo", columnDirective: 'medicalinfo-header',visible: true, "name": "Medical Info"}
 
 	        ];
 
+	    /**
+	     * This creates a bunch of test data and columns so that there are not hard-coded, unique attending columns
+	     * additionally to the static columns for the static attributes. 
+	     * 
+	     */
 	    function initPersons() {
 		    uniqueDates = [];
 
@@ -35,6 +40,7 @@
 			    var column = angular.copy(dateColumn);
 
 			    column.id = column.id + date;
+			    column.name = $filter('date')(new Date(parseInt(date)), 'dd.MM.yyyy');
 			    $scope.columns.push(column);
 		    });
 
@@ -49,7 +55,8 @@
         };
 
         $scope.moveFirstColumnToLast = function () {
-            $rootScope.$emit("columnOrderChanged", $scope.columns[0].id, $scope.columns[7].id);
+	        var max = $scope.columns.length;
+            $rootScope.$emit("columnOrderChanged", $scope.columns[0].id, $scope.columns[max-1].id);
         };
 
         $scope.shuffleColumns = function() {
@@ -150,7 +157,7 @@
 	        scope: {
 		        person: "="
 	        },
-            template: "<div ng-show='show'>{{attending}}</div>",
+            template: "<div ng-show='show'><i class='glyphicon glyphicon-ok'></i> </div>",
 	        link: function(scope, element, attrs) {
 		        var key = attrs.colId.substr(4, attrs.colId.length),
 			        person = scope.person,

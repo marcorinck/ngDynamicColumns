@@ -1,0 +1,36 @@
+[draggable] {
+	cursor: move;
+}
+
+.drag-over {
+	border: 2px dashed black !important;
+}
+
+.panel-table .panel-heading {
+	height: 50px;
+}
+
+.panel-table .panel-title {
+	margin-top: 5px;
+}
+
+
+.panel-table .panel-heading .btn {
+	margin-top: -5px;
+}
+
+body {
+	background-color: #f2f2f0;
+}
+
+.list-group-item {
+	padding: 3px 10px
+}
+
+.list-group-item:hover {
+	background-color: #f5f5f5;
+}
+
+.panel-table .panel-heading .dropdown-menu {
+	padding-top: 0;
+}

@@ -1,8 +1,0 @@
-[draggable] {
-	cursor: move;
-	/*font-size: 10px;*/
-}
-
-.drag-over {
-	border: 2px dashed black !important;
-}
